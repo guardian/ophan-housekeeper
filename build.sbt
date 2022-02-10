@@ -6,7 +6,7 @@ description:= "Housekeeping for Ophan"
 
 version := "1.0"
 
-scalaVersion := "2.13.7"
+scalaVersion := "2.13.8"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -15,7 +15,7 @@ scalacOptions ++= Seq(
   "-Ywarn-dead-code"
 )
 
-val awsSdkVersion = "1.12.131"
+val awsSdkVersion = "1.12.156"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
@@ -30,7 +30,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.9.2",
   "org.scanamo" %% "scanamo" % "1.0.0-M11",
   "org.scanamo" %% "scanamo-testkit" % "1.0.0-M11" % Test,
-  "org.scalatest" %% "scalatest" % "3.2.9" % Test
+  "org.scalatest" %% "scalatest" % "3.2.11" % Test
 )
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
