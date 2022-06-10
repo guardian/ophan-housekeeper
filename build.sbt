@@ -30,7 +30,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.9.2",
   "org.scanamo" %% "scanamo" % "1.0.0-M11",
   "org.scanamo" %% "scanamo-testkit" % "1.0.0-M11" % Test,
-  "org.scalatest" %% "scalatest" % "3.2.11" % Test
+  "org.scalatest" %% "scalatest" % "3.2.12" % Test
 )
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
