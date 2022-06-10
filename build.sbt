@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
 
   "com.amazonaws" % "aws-java-sdk-dynamodb" % awsSdkVersion,
   "com.amazonaws" % "aws-java-sdk-sns" % awsSdkVersion,
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1", // So many Snyk warnings
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.13.3", // So many Snyk warnings
   "com.typesafe.play" %% "play-json" % "2.9.2",
   "org.scanamo" %% "scanamo" % "1.0.0-M11",
   "org.scanamo" %% "scanamo-testkit" % "1.0.0-M11" % Test,
