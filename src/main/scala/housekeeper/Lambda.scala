@@ -5,13 +5,15 @@ import com.amazonaws.services.lambda.runtime.events.SNSEvent
 import play.api.libs.json.{JsError, JsSuccess, Json}
 import software.amazon.awssdk.services.sns.model.PublishRequest
 
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.jdk.CollectionConverters._
 
 object Lambda extends Logging {
 
   private val alertDeletion = new AlertDeletion(Dynamo.scanamo, "ophan-alerts")
 
-  def handleBounce(bounceNotification: BounceNotification): Unit = {
+  def handleBounce(bounceNotification: BounceNotification): Future[_] = {
     val bounce = bounceNotification.bounce
 
     val bouncedAddresses = bounce.bouncedEmailAddresses.toSeq.sorted
@@ -27,12 +29,16 @@ object Lambda extends Logging {
     ), bounceSummary)
 
     if (bounce.isPermanent) {
-      bouncedAddresses.foreach(alertDeletion.deleteAllAlertsForEmailAddress)
+      Future.traverse(bouncedAddresses)(alertDeletion.deleteAllAlertsForEmailAddress)
       if (bounce.isOnSuppressionList) {
         val arn = sys.env("PermanentEmailBounceTopicArn")
         logger.info(s"Sending an SNS alert to $arn")
-        AWS.SNS.publish(PublishRequest.builder().message(bounceSummary).topicArn(arn).build())
+        Future(AWS.SNS.publish(PublishRequest.builder().message(bounceSummary).topicArn(arn).build()).get())
+      } else {
+        Future.successful(Unit)
       }
+    } else {
+      Future.successful(Unit)
     }
   }
 

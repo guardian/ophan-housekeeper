@@ -7,6 +7,8 @@ import org.scanamo._
 import org.scanamo.syntax._
 import org.scanamo.generic.auto._
 
+import scala.concurrent.Future
+
 object Dynamo extends Logging {
 
   val scanamo: ScanamoAsync = ScanamoAsync(AWS.dynamoDb)
@@ -23,7 +25,7 @@ class AlertDeletion(scanamo: ScanamoAsync, tableName: String) extends Logging {
 
   val table = Table[OphanAlert](tableName)
 
-  def deleteAllAlertsForEmailAddress(email: String): Unit = {
+  def deleteAllAlertsForEmailAddress(email: String): Future[Unit] = {
     val baseContext = Map("alertsToDelete.emailAddress" -> email)
     logger.info(baseContext, s"About to search for alerts to delete for '$email'")
     scanamo.exec(for {
