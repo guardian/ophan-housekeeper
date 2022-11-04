@@ -2,8 +2,8 @@ package housekeeper
 
 import com.amazonaws.services.lambda.runtime.Context
 import com.amazonaws.services.lambda.runtime.events.SNSEvent
-import com.amazonaws.services.sns.model.PublishRequest
 import play.api.libs.json.{JsError, JsSuccess, Json}
+import software.amazon.awssdk.services.sns.model.PublishRequest
 
 import scala.jdk.CollectionConverters._
 
@@ -31,7 +31,7 @@ object Lambda extends Logging {
       if (bounce.isOnSuppressionList) {
         val arn = sys.env("PermanentEmailBounceTopicArn")
         logger.info(s"Sending an SNS alert to $arn")
-        AWS.SNS.publishAsync(new PublishRequest(arn, bounceSummary))
+        AWS.SNS.publish(PublishRequest.builder().message(bounceSummary).topicArn(arn).build())
       }
     }
   }

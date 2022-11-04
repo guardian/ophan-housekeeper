@@ -9,7 +9,7 @@ import org.scanamo.generic.auto._
 
 object Dynamo extends Logging {
 
-  val scanamo = ScanamoAsync(AWS.dynamoDb)
+  val scanamo: ScanamoAsync = ScanamoAsync(AWS.dynamoDb)
 
   case class OphanAlert(
                          email: String,
@@ -19,7 +19,7 @@ object Dynamo extends Logging {
   }
 }
 
-class AlertDeletion(scanamo: Scanamo, tableName: String) extends Logging {
+class AlertDeletion(scanamo: ScanamoAsync, tableName: String) extends Logging {
 
   val table = Table[OphanAlert](tableName)
 
