@@ -1,14 +1,15 @@
 package housekeeper
 
+import concurrent.ExecutionContext.Implicits.global
 import cats.implicits._
 import housekeeper.Dynamo.OphanAlert
 import org.scanamo._
 import org.scanamo.syntax._
-import org.scanamo.auto._
+import org.scanamo.generic.auto._
 
 object Dynamo extends Logging {
 
-  val scanamo = Scanamo(AWS.Dynamo)
+  val scanamo = ScanamoAsync(AWS.dynamoDb)
 
   case class OphanAlert(
                          email: String,

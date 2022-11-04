@@ -1,18 +1,26 @@
 package housekeeper
 
-import com.amazonaws.auth.profile.ProfileCredentialsProvider
-import com.amazonaws.auth.{AWSCredentialsProviderChain, EnvironmentVariableCredentialsProvider}
-import com.amazonaws.regions.Regions.EU_WEST_1
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClient
-import com.amazonaws.services.sns.AmazonSNSAsyncClient
+import software.amazon.awssdk.auth.credentials.*
+import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder
+import software.amazon.awssdk.http.SdkHttpClient
+import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient
+import software.amazon.awssdk.regions.Region
+import software.amazon.awssdk.regions.Region.EU_WEST_1
+import software.amazon.awssdk.services.dynamodb.{DynamoDbAsyncClient, DynamoDbAsyncClientBuilder}
+import software.amazon.awssdk.services.sns.{SnsAsyncClient, SnsAsyncClientBuilder}
 
 object AWS {
-  val credentials = new AWSCredentialsProviderChain(
-    new EnvironmentVariableCredentialsProvider,
-    new ProfileCredentialsProvider("ophan")
-  )
+  val region: Region = EU_WEST_1
 
-  val SNS = AmazonSNSAsyncClient.asyncBuilder().withCredentials(credentials).withRegion(EU_WEST_1).build()
+  def credentialsForDevAndProd(devProfile: String, prodCreds: AwsCredentialsProvider): AwsCredentialsProviderChain =
+    AwsCredentialsProviderChain.of(prodCreds, ProfileCredentialsProvider.builder().profileName(devProfile).build())
 
-  val Dynamo = AmazonDynamoDBAsyncClient.asyncBuilder().withCredentials(credentials).withRegion(EU_WEST_1).build()
+  lazy val credentials: AwsCredentialsProvider =
+    credentialsForDevAndProd("ophan", EnvironmentVariableCredentialsProvider.create())
+
+  def build[T, B <: AwsClientBuilder[B, T]](builder: B): T =
+    builder.credentialsProvider(credentials).region(region).build()
+
+  val SNS = build[SnsAsyncClient, SnsAsyncClientBuilder](SnsAsyncClient.builder())
+  val dynamoDb = build[DynamoDbAsyncClient, DynamoDbAsyncClientBuilder](DynamoDbAsyncClient.builder())
 }
