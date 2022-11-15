@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
   "net.logstash.logback" % "logstash-logback-encoder" % "7.0.1",
   "org.slf4j" % "log4j-over-slf4j" % "1.7.32", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
 
-  "ch.qos.logback" % "logback-classic" % "1.2.10",
+  "ch.qos.logback" % "logback-classic" % "1.2.11",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.5.1", // So many Snyk warnings
   "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
   "org.scanamo" %% "scanamo" % scanamoVersion,
