@@ -3,7 +3,11 @@ package housekeeper
 import housekeeper.BounceNotification._
 import play.api.libs.json.{Json, Reads}
 
-case class BounceNotification(bounce: Bounce, mail: Mail)
+case class BounceNotification(bounce: Bounce, mail: Mail) {
+  val bouncedAddresses = bounce.bouncedEmailAddresses.toSeq.sorted
+  val senderOfBouncedEmail = mail.source
+  val bounceSummary = s"$senderOfBouncedEmail sent a ${bounce.bounceType} bounced message to ${bouncedAddresses.mkString(",")}"
+}
 
 object BounceNotification {
 
