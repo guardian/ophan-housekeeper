@@ -34,9 +34,10 @@ class AlertDeletionTest extends AnyFlatSpec with Matchers with ScalaFutures with
 
     allAlerts() shouldBe (alertsForRemainingUsers ++ alertsForBadEmail)
 
-    alertDeletion.deleteAllAlertsForEmailAddress(bouncingEmailAddress)
+    whenReady(alertDeletion.deleteAllAlertsForEmailAddress(bouncingEmailAddress)) { _ =>
+      allAlerts() shouldBe alertsForRemainingUsers
+    }
 
-    allAlerts() shouldBe (alertsForRemainingUsers)
   }
 
 }

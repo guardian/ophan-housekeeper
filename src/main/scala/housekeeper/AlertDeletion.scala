@@ -17,7 +17,7 @@ object Dynamo extends Logging {
                          email: String,
                          alertName: String
                        ) {
-    val primaryKey = "email" -> email and "alertName" -> alertName
+    val primaryKey = "email" === email and "alertName" === alertName
   }
 }
 
@@ -29,12 +29,12 @@ class AlertDeletion(scanamo: ScanamoAsync, tableName: String) extends Logging {
     val baseContext = Map("alertsToDelete.emailAddress" -> email)
     logger.info(baseContext, s"About to search for alerts to delete for '$email'")
     scanamo.exec(for {
-      results <- table.query("email" -> email)
+      results <- table.query("email" === email)
       alertsForEmail = results.flatMap(_.toOption)
       _ = logger.info(baseContext ++ Map(
         "alertsToDelete.found.count" -> alertsForEmail.size,
       ), s"About to delete ${alertsForEmail.size} alerts for '$email'")
-      deletionResults <- alertsForEmail.traverse(alert => table.delete(alert.primaryKey))
+      _ <- alertsForEmail.traverse(alert => table.delete(alert.primaryKey))
     } yield {
       logger.info(baseContext, s"...successfully deleted ${alertsForEmail.size} alerts for '$email'")
     })
