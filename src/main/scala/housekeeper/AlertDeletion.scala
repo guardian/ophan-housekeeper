@@ -1,12 +1,12 @@
 package housekeeper
 
-import concurrent.ExecutionContext.Implicits.global
-import cats.implicits._
+import cats.implicits.*
 import housekeeper.Dynamo.OphanAlert
-import org.scanamo._
-import org.scanamo.syntax._
-import org.scanamo.generic.auto._
+import org.scanamo.*
+import org.scanamo.generic.auto.*
+import org.scanamo.syntax.*
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object Dynamo extends Logging {

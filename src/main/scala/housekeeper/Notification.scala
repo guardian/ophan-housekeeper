@@ -1,6 +1,6 @@
 package housekeeper
 
-import housekeeper.BounceNotification._
+import housekeeper.BounceNotification.*
 import play.api.libs.json.{Json, Reads}
 
 case class BounceNotification(bounce: Bounce, mail: Mail) {
