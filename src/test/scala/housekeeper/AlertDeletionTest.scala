@@ -6,13 +6,14 @@ import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scanamo.{LocalDynamoDB, ScanamoAsync}
+import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
 
 class AlertDeletionTest extends AnyFlatSpec with Matchers with ScalaFutures with IntegrationPatience {
 
-  lazy val client = LocalDynamoDB.client()
+  lazy val client: DynamoDbAsyncClient = LocalDynamoDB.client()
 
   "AlertDeletion" should "delete all the alerts for the specified email address" in {
     val scanamo = ScanamoAsync(client)

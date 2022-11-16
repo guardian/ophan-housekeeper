@@ -3,7 +3,6 @@ stacks:
 deployments:
   housekeeper:
     parameters:
-      bucket: ophan-dist
       fileName: housekeeper.jar
       functions:
         PROD:
