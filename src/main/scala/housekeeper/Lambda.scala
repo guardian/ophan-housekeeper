@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.sns.model.PublishRequest
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{Await, Future}
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 
 object Lambda extends Logging {

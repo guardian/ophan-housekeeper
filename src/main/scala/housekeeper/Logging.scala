@@ -4,7 +4,7 @@ import net.logstash.logback.marker.LogstashMarker
 import net.logstash.logback.marker.Markers.appendEntries
 import org.slf4j.{Logger, LoggerFactory}
 
-import scala.jdk.CollectionConverters._
+import scala.jdk.CollectionConverters.*
 
 trait Logging {
 

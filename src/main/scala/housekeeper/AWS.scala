@@ -1,6 +1,6 @@
 package housekeeper
 
-import software.amazon.awssdk.auth.credentials._
+import software.amazon.awssdk.auth.credentials.*
 import software.amazon.awssdk.awscore.client.builder.AwsClientBuilder
 import software.amazon.awssdk.core.client.builder.SdkAsyncClientBuilder
 import software.amazon.awssdk.http.SdkHttpClient

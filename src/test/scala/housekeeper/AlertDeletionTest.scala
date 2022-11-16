@@ -1,12 +1,12 @@
 package housekeeper
 
-import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType._
 import housekeeper.Dynamo.OphanAlert
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import org.scanamo.{LocalDynamoDB, ScanamoAsync}
 import software.amazon.awssdk.services.dynamodb.DynamoDbAsyncClient
+import software.amazon.awssdk.services.dynamodb.model.ScalarAttributeType.*
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Random
