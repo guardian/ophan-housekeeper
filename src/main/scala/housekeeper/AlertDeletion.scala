@@ -22,6 +22,7 @@ object Dynamo extends Logging {
 }
 
 class AlertDeletion(scanamo: ScanamoAsync, tableName: String) extends Logging {
+  logger.info(s"Table name = $tableName")
 
   val table = Table[OphanAlert](tableName)
 
