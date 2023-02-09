@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Housekeeper stack matches the snapshot 1`] = `
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Housekeeping for Ophan",
+  "Metadata": {
+    "gu:cdk:constructs": [],
+    "gu:cdk:version": "TEST",
+  },
+  "Parameters": {
+    "App": {
+      "Default": "housekeeper",
+      "Description": "Application name",
+      "Type": "String",
+    },
+  },
+  "Resources": {
+    "BounceSNSTopic": {
+      "DependsOn": [
+        "Lambda",
+      ],
+      "Properties": {
+        "DisplayName": "SNS topic alerted when AWS SES emails bounce (eg from Ophan Dashboard alerts, or Airflow)",
+        "Subscription": [
+          {
+            "Endpoint": {
+              "Fn::GetAtt": "Lambda.Arn",
+            },
+            "Protocol": "lambda",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+        "TopicName": "ses-email-bounce-notifications-for-housekeeper",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "ExecutionRole": {
+      "DependsOn": [
+        "PermanentEmailBounceTopic",
+      ],
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com",
+                ],
+              },
+            },
+          ],
+        },
+        "Path": "/",
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": {
+                "Action": [
+                  "logs:CreateLogGroup",
+                  "logs:CreateLogStream",
+                  "logs:PutLogEvents",
+                ],
+                "Effect": "Allow",
+                "Resource": "arn:aws:logs:*:*:*",
+              },
+            },
+            "PolicyName": "logging",
+          },
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "dynamodb:Query",
+                    "dynamodb:DeleteItem",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": [
+                    "arn:aws:dynamodb:*:021353022223:table/ophan-alerts",
+                    "arn:aws:dynamodb:*:021353022223:table/DEV-ophan-alerts",
+                  ],
+                },
+                {
+                  "Action": [
+                    "sns:Publish",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Ref": "PermanentEmailBounceTopic",
+                  },
+                },
+              ],
+            },
+            "PolicyName": "housekeeping-actions",
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "Lambda": {
+      "DependsOn": [
+        "PermanentEmailBounceTopic",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "ophan-dist",
+          "S3Key": "ophan/PROD/housekeeper/housekeeper.jar",
+        },
+        "Description": "Housekeeping for Ophan",
+        "Environment": {
+          "Variables": {
+            "PermanentEmailBounceTopicArn": {
+              "Ref": "PermanentEmailBounceTopic",
+            },
+          },
+        },
+        "Handler": "housekeeper.Lambda::handler",
+        "MemorySize": 512,
+        "Role": {
+          "Fn::GetAtt": "ExecutionRole.Arn",
+        },
+        "Runtime": "java11",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "LambdaInvokePermission": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": "Lambda.Arn",
+        },
+        "Principal": "sns.amazonaws.com",
+        "SourceArn": {
+          "Ref": "BounceSNSTopic",
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "PermanentEmailBounceTopic": {
+      "Properties": {
+        "DisplayName": "Threat to email-sending ability of Ophan's AWS account",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+  },
+}
+`;
