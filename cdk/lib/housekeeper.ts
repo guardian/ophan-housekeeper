@@ -43,7 +43,7 @@ export class Housekeeper extends GuStack {
 			'logs:PutLogEvents',
 		);
 
-		//TODO: change the codebase to use Dev-ophan-alerts table when testing locally or in CODE
+		//TODO: change the codebase to use Dev-ophan-alerts table when testing locally or in CODE or remove this table if not used
 		const dynamodbPolicy = new PolicyStatement();
 		dynamodbPolicy.addResources(
 			`arn:aws:dynamodb:*:${this.account}:table/ophan-alerts`,

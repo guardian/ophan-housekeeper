@@ -76,8 +76,9 @@ exports[`The Housekeeper stack matches the snapshot 1`] = `
           "S3Bucket": {
             "Ref": "DistributionBucketName",
           },
-          "S3Key": "ophan/TEST/housekeeper/ophan-dist/ophan/PROD/housekeeper/housekeeper.jar",
+          "S3Key": "ophan/TEST/housekeeper/housekeeper.jar",
         },
+        "Description": "Housekeeping for Ophan",
         "Environment": {
           "Variables": {
             "APP": "housekeeper",
@@ -246,7 +247,7 @@ exports[`The Housekeeper stack matches the snapshot 1`] = `
                       {
                         "Ref": "DistributionBucketName",
                       },
-                      "/ophan/TEST/housekeeper/ophan-dist/ophan/PROD/housekeeper/housekeeper.jar",
+                      "/ophan/TEST/housekeeper/housekeeper.jar",
                     ],
                   ],
                 },
@@ -294,6 +295,55 @@ exports[`The Housekeeper stack matches the snapshot 1`] = `
                   ],
                 ],
               },
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "PermanentEmailBounceTopic",
+              },
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:*",
+            },
+            {
+              "Action": [
+                "dynamodb:Query",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:*:",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/ophan-alerts",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:dynamodb:*:",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":table/DEV-ophan-alerts",
+                    ],
+                  ],
+                },
+              ],
             },
           ],
           "Version": "2012-10-17",
