@@ -28,7 +28,7 @@ object Lambda extends Logging {
     if (bounce.isPermanent) {
       val deletionF = Future.traverse(bounceNotification.bouncedAddresses)(alertDeletion.deleteAllAlertsForEmailAddress)
       val notificationF = alertDevsIfEmailWasSuppressed(bounceNotification)
-      for { d <- deletionF; _ <- notificationF } yield ()
+      for { _ <- deletionF; _ <- notificationF } yield ()
     } else Future.successful(())
   }
 
