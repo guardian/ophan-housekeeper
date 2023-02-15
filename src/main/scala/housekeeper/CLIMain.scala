@@ -20,6 +20,5 @@ import concurrent.duration.DurationInt
 @main def cliMain(messageFile: String) = {
   val message = Files.readString(Paths.get(messageFile))
   Await.ready(Lambda.go(message), 30 seconds)
-  println(s"About to terminate")
 }
 
