@@ -22,7 +22,7 @@ object Dynamo extends Logging {
 }
 
 class AlertDeletion(scanamo: ScanamoAsync, tableName: String) extends Logging {
-  
+
   val table = Table[OphanAlert](tableName)
 
   def deleteAllAlertsForEmailAddress(email: String): Future[Unit] = {
