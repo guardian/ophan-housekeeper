@@ -6,8 +6,8 @@ When Ophan's Trigr sends those emails, some of them are bounced, either because 
 an out of office automatic reply, or because the email no longer exists.
 
 If too many emails bounce, Amazon will put us on 'probation' (this has happened
-[before](https://github.com/guardian/ophan/issues/2765)), and then blacklist us altogether
-from sending emails.
+[before](https://github.com/guardian/ophan/issues/2765)), and then place us on a deny list, 
+preventing us from sending emails altogether.
 
 The Ophan Housekeeper is an AWS Lambda that receives these bounce emails, and for each 
 hard bounce (email no longer exists) it clears all subscriptions for that email
