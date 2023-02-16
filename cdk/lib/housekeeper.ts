@@ -35,21 +35,23 @@ export class Housekeeper extends GuStack {
 
 		const app = 'housekeeper';
 
-		const loggingPolicy = new PolicyStatement();
-		loggingPolicy.addResources('arn:aws:logs:*:*:*');
-		loggingPolicy.addActions(
-			'logs:CreateLogGroup',
-			'logs:CreateLogStream',
-			'logs:PutLogEvents',
-		);
+		const loggingPolicy = new PolicyStatement({
+			resources: ['arn:aws:logs:*:*:*'],
+			actions: [
+				'logs:CreateLogGroup',
+				'logs:CreateLogStream',
+				'logs:PutLogEvents',
+			],
+		});
 
 		//TODO: change the codebase to use Dev-ophan-alerts table when testing locally or in CODE or remove this table if not used
-		const dynamodbPolicy = new PolicyStatement();
-		dynamodbPolicy.addResources(
-			`arn:aws:dynamodb:*:${this.account}:table/ophan-alerts`,
-			`arn:aws:dynamodb:*:${this.account}:table/DEV-ophan-alerts`,
-		);
-		dynamodbPolicy.addActions('dynamodb:Query', 'dynamodb:DeleteItem');
+		const dynamodbPolicy = new PolicyStatement({
+			resources: [
+				`arn:aws:dynamodb:*:${this.account}:table/ophan-alerts`,
+				`arn:aws:dynamodb:*:${this.account}:table/DEV-ophan-alerts`,
+			],
+			actions: ['dynamodb:Query', 'dynamodb:DeleteItem'],
+		});
 
 		const lambda = new GuLambdaFunction(this, 'housekeeper', {
 			app,
