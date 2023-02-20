@@ -318,32 +318,18 @@ exports[`The Housekeeper stack matches the snapshot 1`] = `
                 "dynamodb:DeleteItem",
               ],
               "Effect": "Allow",
-              "Resource": [
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:*:",
-                      {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":table/ophan-alerts",
-                    ],
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:dynamodb:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/ophan-alerts",
                   ],
-                },
-                {
-                  "Fn::Join": [
-                    "",
-                    [
-                      "arn:aws:dynamodb:*:",
-                      {
-                        "Ref": "AWS::AccountId",
-                      },
-                      ":table/DEV-ophan-alerts",
-                    ],
-                  ],
-                },
-              ],
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
