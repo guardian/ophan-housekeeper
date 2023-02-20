@@ -13,6 +13,8 @@ The Ophan Housekeeper is an AWS Lambda that receives these bounce emails, and fo
 hard bounce (email no longer exists) it clears all subscriptions for that email
 in our DynamoDB table that keep tracks of email alerts users have set up.
 
+![img.png](process-diagram.png)
+
 ### Original Code
 
 This code was copied over from the main Ophan repository, you can see the last version of it

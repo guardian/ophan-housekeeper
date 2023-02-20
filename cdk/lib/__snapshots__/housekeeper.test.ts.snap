@@ -1,0 +1,348 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`The Housekeeper stack matches the snapshot 1`] = `
+{
+  "Metadata": {
+    "gu:cdk:constructs": [
+      "GuDistributionBucketParameter",
+      "GuLambdaFunction",
+    ],
+    "gu:cdk:version": "TEST",
+  },
+  "Parameters": {
+    "DistributionBucketName": {
+      "Default": "/account/services/artifact.bucket",
+      "Description": "SSM parameter containing the S3 bucket name holding distribution artifacts",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "BounceSNSTopic": {
+      "Properties": {
+        "DisplayName": "SNS topic alerted when AWS SES emails bounce (eg from Ophan Dashboard alerts, or Airflow)",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+        "TopicName": "ses-email-bounce-notifications-for-housekeeper",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "PermanentEmailBounceTopic": {
+      "Properties": {
+        "DisplayName": "Threat to email-sending ability of Ophan's AWS account",
+        "Tags": [
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "housekeeper0B2EB566": {
+      "DependsOn": [
+        "housekeeperServiceRoleDefaultPolicy2F2EA2E5",
+        "housekeeperServiceRole504C2463",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "DistributionBucketName",
+          },
+          "S3Key": "ophan/TEST/housekeeper/housekeeper.jar",
+        },
+        "Description": "Housekeeping for Ophan",
+        "Environment": {
+          "Variables": {
+            "APP": "housekeeper",
+            "PermanentEmailBounceTopicArn": {
+              "Ref": "PermanentEmailBounceTopic",
+            },
+            "STACK": "ophan",
+            "STAGE": "TEST",
+          },
+        },
+        "Handler": "housekeeper.Lambda::handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "housekeeperServiceRole504C2463",
+            "Arn",
+          ],
+        },
+        "Runtime": "java11",
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "housekeeper",
+          },
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+        "Timeout": 30,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "housekeeperAllowInvokeHousekeeperBounceSNSTopicBD2935B3A4D73577": {
+      "Properties": {
+        "Action": "lambda:InvokeFunction",
+        "FunctionName": {
+          "Fn::GetAtt": [
+            "housekeeper0B2EB566",
+            "Arn",
+          ],
+        },
+        "Principal": "sns.amazonaws.com",
+        "SourceArn": {
+          "Ref": "BounceSNSTopic",
+        },
+      },
+      "Type": "AWS::Lambda::Permission",
+    },
+    "housekeeperBounceSNSTopic1AB4D46F": {
+      "Properties": {
+        "Endpoint": {
+          "Fn::GetAtt": [
+            "housekeeper0B2EB566",
+            "Arn",
+          ],
+        },
+        "Protocol": "lambda",
+        "TopicArn": {
+          "Ref": "BounceSNSTopic",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+    "housekeeperServiceRole504C2463": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+        "Tags": [
+          {
+            "Key": "App",
+            "Value": "housekeeper",
+          },
+          {
+            "Key": "gu:cdk:version",
+            "Value": "TEST",
+          },
+          {
+            "Key": "gu:repo",
+            "Value": "guardian/ophan-housekeeper",
+          },
+          {
+            "Key": "Stack",
+            "Value": "ophan",
+          },
+          {
+            "Key": "Stage",
+            "Value": "TEST",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "housekeeperServiceRoleDefaultPolicy2F2EA2E5": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "DistributionBucketName",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::",
+                      {
+                        "Ref": "DistributionBucketName",
+                      },
+                      "/ophan/TEST/housekeeper/housekeeper.jar",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "ssm:GetParametersByPath",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/TEST/ophan/housekeeper",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ssm:GetParameters",
+                "ssm:GetParameter",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/TEST/ophan/housekeeper/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "PermanentEmailBounceTopic",
+              },
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": "arn:aws:logs:*:*:*",
+            },
+            {
+              "Action": [
+                "dynamodb:Query",
+                "dynamodb:DeleteItem",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:dynamodb:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":table/ophan-alerts",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "housekeeperServiceRoleDefaultPolicy2F2EA2E5",
+        "Roles": [
+          {
+            "Ref": "housekeeperServiceRole504C2463",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+  },
+}
+`;
