@@ -7,7 +7,7 @@ deployments:
       functions:
         PROD:
           filename: housekeeper.jar
-          name: Ophan-Housekeeper-Lambda-KBZN4AWWA0W7
+          name: Ophan-Housekeeper-housekeeper0B2EB566-ssGoZjafJE5p
     type: aws-lambda
 regions:
 - eu-west-1
