@@ -17,7 +17,7 @@ val scanamoVersion = "1.0.0-M23"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
-  "com.amazonaws" % "aws-lambda-java-events" % "3.11.0",
+  "com.amazonaws" % "aws-lambda-java-events" % "3.11.1",
   "net.logstash.logback" % "logstash-logback-encoder" % "7.0.1",
   "org.slf4j" % "log4j-over-slf4j" % "1.7.32", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
 
