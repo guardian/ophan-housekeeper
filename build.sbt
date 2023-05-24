@@ -13,7 +13,7 @@ scalacOptions ++= Seq(
   "-encoding", "UTF-8",
 )
 
-val scanamoVersion = "1.0.0-M23"
+val scanamoVersion = "1.0.0-M26"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.1",
