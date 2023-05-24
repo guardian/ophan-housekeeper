@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
-  "org.scalatest" %% "scalatest" % "3.2.11" % Test
+  "org.scalatest" %% "scalatest" % "3.2.16" % Test
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.270")
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
