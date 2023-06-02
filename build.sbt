@@ -27,7 +27,7 @@ libraryDependencies ++= Seq(
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
   "org.scalatest" %% "scalatest" % "3.2.16" % Test
-) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.270")
+) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.17.295")
 
 enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
 
