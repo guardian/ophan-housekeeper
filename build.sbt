@@ -23,7 +23,7 @@ libraryDependencies ++= Seq(
 
   "ch.qos.logback" % "logback-classic" % "1.2.12",
   "com.fasterxml.jackson.core" % "jackson-databind" % "2.15.2", // So many Snyk warnings
-  "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
+  "com.typesafe.play" %% "play-json" % "2.10.0-RC8",
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
   "org.scalatest" %% "scalatest" % "3.2.16" % Test
