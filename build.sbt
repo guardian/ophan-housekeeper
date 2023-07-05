@@ -29,14 +29,9 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.16" % Test
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.20.95")
 
-enablePlugins(RiffRaffArtifact, BuildInfoPlugin)
+enablePlugins(BuildInfoPlugin)
 
-assemblyJarName := s"${name.value}.jar"
-riffRaffPackageType := assembly.value
-riffRaffUploadArtifactBucket := Option("riffraff-artifact")
-riffRaffUploadManifestBucket := Option("riffraff-builds")
-riffRaffArtifactResources += (file("cfn.yaml"), s"${name.value}-cfn/cfn.yaml")
-
+assembly / assemblyOutputPath  := file(s"target/${name.value}.jar")
 assembly / assemblyMergeStrategy := {
   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
   case _ => MergeStrategy.first
@@ -53,13 +48,24 @@ inConfig(Test)(Seq(
   testOptions += dynamoDBLocalTestCleanup.value
 ))
 
+def env(propName: String): Option[String] = sys.env.get(propName).filter(_.trim.nonEmpty)
 
 buildInfoPackage := "housekeeper"
-buildInfoKeys := {
-  val buildInfo = com.gu.riffraff.artifact.BuildInfo(baseDirectory.value)
-  Seq[BuildInfoKey](
-    "buildNumber" -> buildInfo.buildIdentifier,
-    "gitCommitId" -> buildInfo.revision,
-    "buildTime" -> System.currentTimeMillis
-  )
-}
+buildInfoKeys ++= Seq[BuildInfoKey](
+  name,
+  scalaVersion,
+  sbtVersion,
+
+  // copied from https://github.com/guardian/sbt-riffraff-artifact/blob/e6f5e62d8f776b1004f72ed1ea415328fa43ed31/src/main/scala/com/gu/riffraff/artifact/BuildInfo.scala
+  BuildInfoKey.sbtbuildinfoConstantEntry("buildNumber", env("GITHUB_RUN_NUMBER")),
+  BuildInfoKey.sbtbuildinfoConstantEntry("buildTime", System.currentTimeMillis),
+  BuildInfoKey.sbtbuildinfoConstantEntry("gitCommitId", env("GITHUB_SHA")),
+
+  BuildInfoKey.sbtbuildinfoConstantEntry(
+    "branch",
+    env("GITHUB_HEAD_REF")
+      .orElse(env("GITHUB_REF"))
+      .orElse(Some("unknown-branch"))
+      .get
+      .stripPrefix("refs/heads/")),
+)
