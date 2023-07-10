@@ -21,7 +21,7 @@ jobs:
           distribution: 'corretto'
           cache: 'sbt'
       # Build CDK and Play (in sequence)
-      - run: sbt clean compile assembly
+      - run: sbt clean compile test assembly
       # Fetch AWS credentials, allowing us to upload to Riff-Raff (well, S3)
       - uses: aws-actions/configure-aws-credentials@v2
         with:
