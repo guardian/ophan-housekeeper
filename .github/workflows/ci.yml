@@ -1,0 +1,51 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      # Checkout the branch
+      - uses: actions/checkout@v3
+      # Java is needed for the Scala Play app
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'corretto'
+          cache: 'sbt'
+      # Build CDK and Play (in sequence)
+      - run: sbt clean compile test assembly
+      # Fetch AWS credentials, allowing us to upload to Riff-Raff (well, S3)
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.GU_RIFF_RAFF_ROLE_ARN }}
+          aws-region: eu-west-1
+      # Upload our build artifacts to Riff-Raff (well, S3)
+      - uses: guardian/actions-riff-raff@v2
+        with:
+          projectName: housekeeper
+          buildNumberOffset: 332
+          config: |
+            stacks:
+              - ophan
+            regions:
+              - eu-west-1
+            deployments:
+              housekeeper:
+                parameters:
+                  fileName: housekeeper.jar
+                  functions:
+                    PROD:
+                      filename: housekeeper.jar
+                      name: Ophan-Housekeeper-housekeeper0B2EB566-ssGoZjafJE5p
+                type: aws-lambda
+          contentDirectories: |
+            housekeeper:
+              - target/housekeeper.jar
