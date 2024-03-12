@@ -26,7 +26,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.play" %% "play-json" % "2.10.4",
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
-  "org.scalatest" %% "scalatest" % "3.2.16" % Test
+  "org.scalatest" %% "scalatest" % "3.2.18" % Test
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.25.6")
 
 enablePlugins(BuildInfoPlugin)
