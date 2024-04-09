@@ -6,27 +6,27 @@ description:= "Housekeeping for Ophan"
 
 version := "1.0"
 
-scalaVersion := "3.2.1"
+scalaVersion := "3.2.2"
 
 scalacOptions ++= Seq(
   "-deprecation",
   "-encoding", "UTF-8",
 )
 
-val scanamoVersion = "1.0.0-M26"
+val scanamoVersion = "1.0.4"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
   "com.amazonaws" % "aws-lambda-java-events" % "3.11.4",
-  "net.logstash.logback" % "logstash-logback-encoder" % "7.0.1",
-  "org.slf4j" % "log4j-over-slf4j" % "1.7.32", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
+  "net.logstash.logback" % "logstash-logback-encoder" % "7.4",
+  "org.slf4j" % "log4j-over-slf4j" % "1.7.36", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
 
-  "ch.qos.logback" % "logback-classic" % "1.2.10",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.15.2", // So many Snyk warnings
-  "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
+  "ch.qos.logback" % "logback-classic" % "1.2.13",
+  "com.fasterxml.jackson.core" % "jackson-databind" % "2.15.4", // So many Snyk warnings
+  "com.typesafe.play" %% "play-json" % "2.10.4",
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
-  "org.scalatest" %% "scalatest" % "3.2.16" % Test
+  "org.scalatest" %% "scalatest" % "3.2.18" % Test
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.25.6")
 
 enablePlugins(BuildInfoPlugin)
