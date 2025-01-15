@@ -15,11 +15,7 @@ jobs:
       # Checkout the branch
       - uses: actions/checkout@v3
       # Java is needed for the Scala Play app
-      - uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'corretto'
-          cache: 'sbt'
+      - uses: guardian/setup-scala@v1
       # Build CDK and Play (in sequence)
       - run: sbt clean compile test assembly
       # Fetch AWS credentials, allowing us to upload to Riff-Raff (well, S3)
