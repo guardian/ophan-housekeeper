@@ -24,8 +24,8 @@ https://github.com/guardian/ophan/tree/last-version-of-housekeeper-in-main-ophan
 
 ### How to test locally?
 - Run Janus credentials in your terminal.
-- Go to Ophan dashboard and create an email alert which you will find under `More -> Email Alerts`. Now you should have 1 email alert before the form.
+- Go to (PROD) Ophan dashboard and create an email alert which you will find under `More -> Email Alerts`. Now you should have 1 email alert before the form.
 - Make a copy of `permanentBounce.ophanAlert.json` which you will find it under `src/test/resources` and store it somewhere that you can grab it later in the terminal.
-- Change the email address in duplicate file which you will find in `bounce` object.
+- Change the email address in duplicate file which you will find in `bounce` object (probably the `guardian.co.uk` variant - not the `theguardian.com` variant).
 - Run `sbt` in the terminal or go to the sbt console and then type this command `run <your file path>` and the easiest way to do this is to drag the file in te terminal and that will give you the path.
 - Now if you go back to Ophan dashboard Email Alerts page and refresh you should see no alerts.
