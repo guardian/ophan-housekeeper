@@ -23,6 +23,8 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.32", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
 
   "ch.qos.logback" % "logback-classic" % "1.2.13",
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
   "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
   "org.scanamo" %% "scanamo" % scanamoVersion,
@@ -30,12 +32,6 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "3.2.16" % Test,
   "io.netty" % "netty-handler" % "4.1.118.Final"
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.32.29")
-
-dependencyOverrides ++= Seq(
-  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
-  "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
-  "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion
-)
 
 enablePlugins(BuildInfoPlugin)
 
