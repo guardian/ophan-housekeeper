@@ -14,7 +14,8 @@ scalacOptions ++= Seq(
 )
 
 val scanamoVersion = "1.0.0-M26"
-val jacksonVersion = "2.18.6"
+val jacksonVersion = "2.18.9"
+val nettyVersion = "4.2.16.Final"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
@@ -30,7 +31,10 @@ libraryDependencies ++= Seq(
   "org.scanamo" %% "scanamo" % scanamoVersion,
   "org.scanamo" %% "scanamo-testkit" % scanamoVersion % Test,
   "org.scalatest" %% "scalatest" % "3.2.16" % Test,
-  "io.netty" % "netty-handler" % "4.1.118.Final"
+  "io.netty" % "netty-handler" % nettyVersion,
+  "io.netty" % "netty-codec" % nettyVersion,
+  "io.netty" % "netty-codec-http" % nettyVersion,
+  "io.netty" % "netty-codec-http2" % nettyVersion
 ) ++ Seq("dynamodb", "sns", "url-connection-client").map(artifact => "software.amazon.awssdk" % artifact % "2.32.29")
 
 enablePlugins(BuildInfoPlugin)
