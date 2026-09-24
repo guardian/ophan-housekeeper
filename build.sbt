@@ -15,7 +15,7 @@ scalacOptions ++= Seq(
 
 val scanamoVersion = "1.0.0-M26"
 val jacksonVersion = "2.18.9"
-val nettyVersion = "4.2.16.Final"
+val nettyVersion = "4.2.17.Final"
 
 libraryDependencies ++= Seq(
   "com.amazonaws" % "aws-lambda-java-core" % "1.2.3",
