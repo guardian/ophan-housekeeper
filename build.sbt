@@ -14,7 +14,7 @@ scalacOptions ++= Seq(
 )
 
 val scanamoVersion = "1.0.0-M26"
-val jacksonVersion = "2.18.9"
+val jacksonVersion = "2.18.10"
 val nettyVersion = "4.2.17.Final"
 
 libraryDependencies ++= Seq(
