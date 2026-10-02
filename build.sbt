@@ -14,7 +14,8 @@ scalacOptions ++= Seq(
 )
 
 val scanamoVersion = "1.0.0-M26"
-val jacksonVersion = "2.18.10"
+val jacksonVersion = "2.22.3"
+val jacksonAnnotationVersion = "2.22"
 val nettyVersion = "4.2.17.Final"
 
 libraryDependencies ++= Seq(
@@ -24,7 +25,7 @@ libraryDependencies ++= Seq(
   "org.slf4j" % "log4j-over-slf4j" % "1.7.32", //  log4j-over-slf4j provides `org.apache.log4j.MDC`, which is dynamically loaded by the Lambda runtime
 
   "ch.qos.logback" % "logback-classic" % "1.2.13",
-  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonVersion,
+  "com.fasterxml.jackson.core" % "jackson-annotations" % jacksonAnnotationVersion, // supports different versions to jackson core/databind
   "com.fasterxml.jackson.core" % "jackson-core" % jacksonVersion,
   "com.fasterxml.jackson.core" % "jackson-databind" % jacksonVersion,
   "com.typesafe.play" %% "play-json" % "2.10.0-RC7",
